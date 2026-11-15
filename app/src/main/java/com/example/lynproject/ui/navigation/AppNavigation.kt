@@ -20,7 +20,9 @@ import androidx.navigation.navArgument
 import com.example.lynproject.ui.repertoire.RepertoireScreen
 import com.example.lynproject.ui.repertoire.SongEditScreen
 import com.example.lynproject.ui.repertoire.SongEditViewModel
-import com.example.lynproject.ui.setlist.SetlistPlaceholderScreen
+import com.example.lynproject.ui.setlist.SetlistDetailScreen
+import com.example.lynproject.ui.setlist.SetlistDetailViewModel
+import com.example.lynproject.ui.setlist.SetlistsScreen
 
 /** All screen addresses ("routes") in one place. */
 object Routes {
@@ -30,6 +32,10 @@ object Routes {
 
     fun songEdit(songId: Long = SongEditViewModel.NEW_SONG_ID) =
         "song_edit?${SongEditViewModel.SONG_ID_ARG}=$songId"
+
+    const val SETLIST_DETAIL = "setlist_detail/{${SetlistDetailViewModel.SETLIST_ID_ARG}}"
+
+    fun setlistDetail(setlistId: Long) = "setlist_detail/$setlistId"
 }
 
 private data class BottomTab(val route: String, val label: String, val icon: String)
@@ -101,7 +107,17 @@ fun AppNavigation() {
 
             // ---- Rym: Setlist feature ----
             composable(Routes.SETLISTS) {
-                SetlistPlaceholderScreen()
+                SetlistsScreen(
+                    onOpenSetlist = { id -> navController.navigate(Routes.setlistDetail(id)) }
+                )
+            }
+            composable(
+                route = Routes.SETLIST_DETAIL,
+                arguments = listOf(navArgument(SetlistDetailViewModel.SETLIST_ID_ARG) {
+                    type = NavType.LongType
+                })
+            ) {
+                SetlistDetailScreen(onBack = { navController.popBackStack() })
             }
         }
     }

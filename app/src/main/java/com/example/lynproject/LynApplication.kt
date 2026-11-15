@@ -2,6 +2,7 @@ package com.example.lynproject
 
 import android.app.Application
 import com.example.lynproject.data.AppDatabase
+import com.example.lynproject.data.SetlistRepository
 import com.example.lynproject.data.SongRepository
 
 /**
@@ -17,5 +18,5 @@ class LynApplication : Application() {
 
     val songRepository: SongRepository by lazy { SongRepository(database.songDao()) }
 
-    // Rym: add `val setlistRepository` here for the Setlist feature.
+    val setlistRepository: SetlistRepository by lazy { SetlistRepository(database.setlistDao()) }
 }

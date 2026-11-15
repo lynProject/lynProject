@@ -8,19 +8,20 @@ import androidx.room.RoomDatabase
 /**
  * The app's single Room database (file name: "music_companion.db").
  *
- * For Rym's Setlist feature: add the new entities to `entities = [...]`,
- * add an abstract DAO function, and increase `version` to 2.
+ * Tables: songs (Lyn), setlists + setlist_songs (Rym).
  * fallbackToDestructiveMigration() wipes old test data when the version
  * changes, which is fine while we are still developing.
  */
 @Database(
-    entities = [Song::class],
-    version = 1,
+    entities = [Song::class, Setlist::class, SetlistSong::class],
+    version = 2, // v2: Rym added setlists + setlist_songs
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun songDao(): SongDao
+
+    abstract fun setlistDao(): SetlistDao
 
     companion object {
         @Volatile
